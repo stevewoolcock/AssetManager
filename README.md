@@ -1,4 +1,5 @@
 # AssetManager
+
 ####A lightweight ActionScript 3.0 asset management solution
 
 
@@ -15,14 +16,14 @@ your projects quickly without having to worry about how to load, store and retri
 * Global and local loading queues
 * Nestable queues
 * Priority system for controlling loading priority of individual assets and nested queues
-* Plugin architecture for handling different data and file formats. Included are:
+* Plugin architecture for handling different data and file formats. Included format handlers are:
 	* Binary
 	* Images (PNG, GIF and JPEG)
 	* Sound (MP3)
 	* SWF
-	* Name/value pair variables
 	* Video (All Flash Platform supported video formats)
 	* XML
+	* Name/value pairs
 	* Adobe Pixel Blender Shaders
 * Support for XML formatted asset lists
 * Easily extendable with custom plugins to support any format
@@ -36,6 +37,10 @@ Load an external asset and listen for completion:
 	assetManager.addEventListener(AssetEvent.QUEUE_COMPLETE, onQueueComplete, false, 0, true);
 	assetManager.add("assets/image1.jpg");
 	assetManager.add("assets/sound.mp3");
+	
+Retrieving a loaded asset:
+	
+	var bmd:BitmapData = AssetManager.getInstance().get("assets/image1.jpg").asset;
 
 Load an asset with a custom high priority:
 	
@@ -43,10 +48,12 @@ Load an asset with a custom high priority:
 	
 Load a single asset and execute a callback upon completion:
 	
-	_AssetManager.getInstance().add("image.png", { onComplete: function():void
-	{
-		trace("image.png complete");
-	} });
+	AssetManager.getInstance().add("image.png",	{
+		onComplete: function():void
+		{
+			trace("Asset complete:", AssetManager.getInstance().get("image.png"));
+		}
+	});
 
 See the [example](https://github.com/stevewoolcock/AssetManager/tree/master/examples "AssetManager examples") projects for more examples and advanced features.
 
