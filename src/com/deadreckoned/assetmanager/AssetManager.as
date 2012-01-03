@@ -31,21 +31,10 @@
 
 package com.deadreckoned.assetmanager
 {
+	import com.deadreckoned.assetmanager.formats.*;
 	import com.deadreckoned.assetmanager.formats.IFormatHandler;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.events.IEventDispatcher;
-	import flash.events.IOErrorEvent;
-	import flash.events.ProgressEvent;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;
 	import flash.utils.Dictionary;
 	
-	import com.deadreckoned.assetmanager.events.AssetEvent;
-	import com.deadreckoned.assetmanager.events.AssetProgressEvent;
-	import com.deadreckoned.assetmanager.formats.*;
 	
 	/**
 	 * [Singleton] The AssetManager class is a Singleton object that handles bulk loading of assets. The singleton AssetManager instance inherits from AssetQueue.
