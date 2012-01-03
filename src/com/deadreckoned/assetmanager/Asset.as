@@ -13,6 +13,9 @@ package com.deadreckoned.assetmanager
 	import flash.events.IEventDispatcher;
 	import flash.events.IOErrorEvent;
 	
+	/**
+	 * The Asset class contains data relating to a stored or loaded asset within an AssetQueue.
+	 */
 	public class Asset implements IQueueable
 	{
 		/**

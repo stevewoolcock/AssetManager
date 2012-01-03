@@ -104,7 +104,9 @@ package com.deadreckoned.assetmanager
 	 */
 	[Event(name = "AssetProgress", type = "com.deadreckoned.assetmanager.events.AssetProgressEvent")]
 	
-	
+	/**
+	 * The AssetQueue handles the loading and storage of individual Asset objects.
+	 */
 	public class AssetQueue extends EventDispatcher implements IQueueable
 	{
 		private var _path:String = "";
@@ -243,10 +245,11 @@ package com.deadreckoned.assetmanager
 		 * The second argument can be an object containing information about the file. If adding an ActionScript object, the <code>args</code> parameter can be a single string, which will be used
 		 * as the unique identifier for the asset. When an asset is added to ANY queue, it is also added to the AssetManager default queue, so it can be accessed from anywhere within
 		 * your application, so beware of duplicate ids.
-		 * <p>If an asset has already been loaded, unless the <code>overwrite</code> property is supplied, the asset will not be loaded.</p>
+		 * <p>If an asset has already been loaded, unless the <code>overwrite</code> property is supplied, the asset will not be loaded. However, asset and queue related events will still execute
+		 * as expected.</p>
 		 * <p>AssetQueue objects, when added to another AssetQueue, are added as child queues. When they are reached in the queue while loading, they will begin loading their assets.
 		 * When a child AssetQueue has completed loading, it is removed from the parent queue, and the parent queue will continue loading any remaining child assets. With this system, it makes it
-		 * easy to prioritize and manage your individual AssetQueue instances<p>.
+		 * easy to prioritize and manage your individual AssetQueue instances.</p>
 		 * 
 		 * @param	obj		Either a URL to load an asset from, an AssetQueue object to add as a child queue or any other valid ActionScript object you want to store in the queue.
 		 * @param	args	Arguments to supply when loading and storing the asset. See method description for a full list of supported arguments.

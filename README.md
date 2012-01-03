@@ -6,8 +6,12 @@
 ## Description
 
 AssetManager is a simple, yet flexible, solution to asset management for AS3 projects.
+
 It provides a clean, simple and well documented API to allow you to focus on building
 your projects quickly without having to worry about how to load, store and retrieve assets.
+
+AssetManager contains a simple plugin architecture for file formated to keep the footprint low.
+A default import of AssetManager with no custom plugins activated weighs in at around at a small 8.3kb.
 
 
 ## Features
@@ -15,7 +19,10 @@ your projects quickly without having to worry about how to load, store and retri
 * Clean and simple API
 * Global and local loading queues
 * Nestable queues
+* Simple purging system for managing garbage collection and keeping memory usage in check
 * Priority system for controlling loading priority of individual assets and nested queues
+* Ability to store any valid ActionScript object, so all assets, internal or external, can be managed through AssetManager
+* Support for XML formatted asset lists
 * Plugin architecture for handling different data and file formats. Included format handlers are:
 	* Binary
 	* Images (PNG, GIF and JPEG)
@@ -25,8 +32,8 @@ your projects quickly without having to worry about how to load, store and retri
 	* XML
 	* Name/value pairs
 	* Adobe Pixel Blender Shaders
-* Support for XML formatted asset lists
 * Easily extendable with custom plugins to support any format
+* Suitable for use in both small projects and large enterprise level projects
 
 
 ## Quick API Examples
