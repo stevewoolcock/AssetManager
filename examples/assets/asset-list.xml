@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<assets>
+	<asset>image1.jpg</asset>
+	<asset>sound.mp3</asset>
+	<asset>xmldoc.xml</asset>
+	<asset>swffile.swf</asset>
+	<asset>binarytest.js</asset>
+	<asset>this-asset-doesnt-exist.foo</asset>
+	<asset>subfolder/image2.png</asset>
+</assets>
