@@ -32,6 +32,7 @@
 package com.deadreckoned.assetmanager
 {
 	import com.deadreckoned.assetmanager.events.AssetEvent;
+	import com.deadreckoned.assetmanager.events.AssetProgressEvent;
 	import com.deadreckoned.assetmanager.formats.*;
 	import com.deadreckoned.assetmanager.formats.IFormatHandler;
 	import flash.display.BitmapData;
