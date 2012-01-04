@@ -11,7 +11,7 @@ It provides a clean, simple and well documented API to allow you to focus on bui
 your projects quickly without having to worry about how to load, store and retrieve assets.
 
 AssetManager contains a simple plugin architecture for file formated to keep the footprint low.
-A default import of AssetManager with no custom plugins activated weighs in at around at a small 8.3kb.
+A default import of AssetManager with no custom plugins activated weighs in at around 8.3kb.
 
 
 ## Features
