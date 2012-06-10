@@ -168,6 +168,11 @@ package com.deadreckoned.assetmanager
 		public function get uri():String { return _uri; }
 		
 		/**
+		 * The extension of the asset's URI.
+		 */
+		public function get extension():String { return !_uri ? "" : _uri.substr(_uri.lastIndexOf(".") + 1); }
+		
+		/**
 		 * @inheritDoc
 		 */
 		public function get priority():int { return _priority; }
@@ -205,6 +210,7 @@ package com.deadreckoned.assetmanager
 		internal function dispose ():void
 		{
 			clean();
+			disposeHandler();
 			
 			_asset = null;
 			_context = null;
@@ -228,8 +234,6 @@ package com.deadreckoned.assetmanager
 		 */
 		internal function clean():void
 		{
-			disposeHandler();
-			
 			// Remove callbacks
 			onComplete = onError = onProgress = onStart = null;
 			onCompleteParams = onErrorParams = onProgressParams = onStartParams = null;

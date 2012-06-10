@@ -108,8 +108,6 @@ package com.deadreckoned.assetmanager
 		{
 			super("$global");
 			if (enforcer == null) throw new Error("AssetManager is a Singleton and cannot be directly instantiated. Use AssetManager.getInstance().");
-			
-			load();
 		}
 		
 		
@@ -168,6 +166,19 @@ package com.deadreckoned.assetmanager
 		// PUBLIC FUNCTIONS
 		// ------------------------------------------------------------------------------------------
 		/**
+		 * Creates a new AssetQueue, with the same settings as the global queue.
+		 * @param	id	An option id for the queue
+		 * @return	The new AssetQueue, with the same settings as the global queue
+		 */
+		public function createQueue(id:String = null):AssetQueue
+		{
+			var queue:AssetQueue = new AssetQueue(id);
+			queue.path = this.path;
+			queue.loadSequentially = this.loadSequentially;
+			return queue;
+		}
+		
+		/**
 		 * @inheritDoc
 		 */
 		public override function toString():String
@@ -184,6 +195,7 @@ package com.deadreckoned.assetmanager
 		internal function addAsset(asset:Asset):void
 		{
 			_assetsById[asset.id] = asset;
+			if (_loaded.indexOf(asset) == -1) _loaded.push(asset);
 		}
 		
 		/**
@@ -193,6 +205,7 @@ package com.deadreckoned.assetmanager
 		{
 			if (_assetsById[asset.id] === asset)
 			{
+				_loaded.splice(_loaded.indexOf(asset), 1);
 				_assetsById[asset.id] = null;
 				delete _assetsById[asset.id];
 			}

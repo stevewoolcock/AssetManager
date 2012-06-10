@@ -208,5 +208,13 @@ package com.deadreckoned.assetmanager.events
 			_asset = asset;
 			_data = data;
 		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function clone():Event
+		{
+			return new AssetEvent(type, bubbles, cancelable, _asset, _data);
+		}
 	}
 }

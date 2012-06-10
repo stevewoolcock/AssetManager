@@ -111,8 +111,7 @@ package com.deadreckoned.assetmanager
 	{
 		private var _path:String = "";
 		private var _id:String;
-		private var _loaded:Vector.<Asset>;
-		private var _loading:Boolean;
+		private var _loading:Boolean = true;
 		private var _loadingId:String;
 		private var _loadingXML:Boolean;
 		private var _loadSequentially:Boolean = true;
@@ -122,6 +121,11 @@ package com.deadreckoned.assetmanager
 		 * @private
 		 */
 		protected var _assetsById:Dictionary;
+		
+		/**
+		 * @private
+		 */
+		protected var _loaded:Vector.<Asset>;
 		
 		/**
 		 * @private
@@ -151,7 +155,7 @@ package com.deadreckoned.assetmanager
 			_path = value;
 			
 			// If a forward slash is not supplied, add one
-			if (_path != null && _path.substr(_path.length - 1) != "/") _path += "/";
+			if (_path != null && _path.length > 0 && _path.substr(_path.length - 1) != "/") _path += "/";
 		}
 		
 		/**
@@ -317,7 +321,9 @@ AssetManager.getInstance().add(childQueue);</listing>
 				
 				// Default values
 				if (args.id == null) args.id = uri;
-				if (_assetsById[args.id] != null)
+				
+				var existingAsset:Asset = _assetsById[args.id] || AssetManager.getInstance().get(args.id);
+				if (existingAsset != null)
 				{
 					// An asset with this id already exists
 					if (args.overwrite === true)
@@ -333,23 +339,40 @@ AssetManager.getInstance().add(childQueue);</listing>
 						// Not flagged for overwrite. If the queue is loading and is currently empty, we should dispatch start and complete events
 						if (_loading && _queue.length == 0)
 						{
+							// Queue has started
 							if (hasEventListener(AssetEvent.QUEUE_START))
 								dispatchEvent(new AssetEvent(AssetEvent.QUEUE_START));
-								
+						}
+						
+						if (isLoaded(args.id))
+						{
+							// The asset has already loaded, dispatch start and complete events
 							if (hasEventListener(AssetEvent.ASSET_START))
-								dispatchEvent(new AssetEvent(AssetEvent.ASSET_START));
+								dispatchEvent(new AssetEvent(AssetEvent.ASSET_START, false, false, existingAsset));
 								
+							if (args.onStart != null)
+								args.onStart.apply(null, args.onStartParams || [ existingAsset ]);
+							
 							if (hasEventListener(AssetEvent.ASSET_COMPLETE))
-								dispatchEvent(new AssetEvent(AssetEvent.ASSET_COMPLETE));
-								
+								dispatchEvent(new AssetEvent(AssetEvent.ASSET_COMPLETE, false, false, existingAsset));
+							
+							if (args.onComplete != null)
+								args.onComplete.apply(null, args.onCompleteParams || [ existingAsset ]);
+						}
+						
+						if (_loading && _queue.length == 0)
+						{
+							// Queue is complete
 							if (hasEventListener(AssetEvent.QUEUE_COMPLETE))
 								dispatchEvent(new AssetEvent(AssetEvent.QUEUE_COMPLETE));
 						}
 						
+						
 						// Return previous asset
-						return _assetsById[args.id];
+						return existingAsset;
 					}
 				}
+				
 				if (args.type == null)		args.type		= getTypeFromURL(uri);
 				if (args.priority == null)	args.priority	= 0;
 				
@@ -369,13 +392,13 @@ AssetManager.getInstance().add(childQueue);</listing>
 				
 				// Set callbacks
 				asset.onStart			= args.onStart;
-				asset.onStartParams		= args.onStartParams;
+				asset.onStartParams		= args.onStartParams || [ asset ];
 				asset.onProgress		= args.onProgress;
-				asset.onProgressParams	= args.onProgressParams;
+				asset.onProgressParams	= args.onProgressParams || [ asset ];
 				asset.onComplete		= args.onComplete;
-				asset.onCompleteParams	= args.onCompleteParams;
+				asset.onCompleteParams	= args.onCompleteParams || [ asset ];
 				asset.onError			= args.onError;
-				asset.onErrorParams		= args.onErrorParams;
+				asset.onErrorParams		= args.onErrorParams || [ asset ];
 				
 				// Add asset
 				_assetsById[asset._id] = asset;
@@ -411,12 +434,11 @@ AssetManager.getInstance().add(childQueue);</listing>
 				// Default priority is NaN, to force the child queue to be added to the end of this queue
 				if (!args.hasOwnProperty("priority")) args.priority = NaN;
 				
-				// Add as a child queue, if it doesn't already exist in this queue
-				if (_queue.indexOf(assetQueue) == -1)
-				{
-					assetQueue.addEventListener(AssetEvent.QUEUE_COMPLETE, onChildQueueComplete, false, 0, true);
-					addObjectToQueue(assetQueue, args.priority);
-				}
+				assetQueue.addEventListener(AssetEvent.ASSET_COMPLETE, onChildQueueAssetEvent, false, 0, true);
+				assetQueue.addEventListener(AssetEvent.ASSET_FAIL, onChildQueueAssetEvent, false, 0, true);
+				assetQueue.addEventListener(AssetEvent.ASSET_START, onChildQueueAssetEvent, false, 0, true);
+				assetQueue.addEventListener(AssetEvent.QUEUE_COMPLETE, onChildQueueComplete, false, 0, true);
+				addObjectToQueue(assetQueue, args.priority);
 				
 				return assetQueue;
 				// EXIT
@@ -686,10 +708,11 @@ AssetManager.getInstance().addFromXML(assetList);
 			for (var i:int = 0, len:int = _queue.length; i < len; i++)
 			{
 				asset = _queue[i] as Asset;
-				if (asset != null && asset.id == id) return true;
+				if (asset != null && asset.id == id)
+					return false;
 			}
 			
-			return false;
+			return true;
 		}
 		
 		/**
@@ -702,7 +725,8 @@ AssetManager.getInstance().addFromXML(assetList);
 		 */
 		public function load():void
 		{
-			if (_loadingXML) return;
+			if (_loadingXML)
+				return;
 			
 			// Dispatch a QUEUE_START event if we're not already loading
 			if (!_loading)
@@ -710,6 +734,14 @@ AssetManager.getInstance().addFromXML(assetList);
 				_loading = true;
 				if (_queue.length > 0 && hasEventListener(AssetEvent.QUEUE_START))
 					dispatchEvent(new AssetEvent(AssetEvent.QUEUE_START));
+			}
+			
+			if (_queue.length == 0)
+			{
+				// There are no assets in the queue, so dispatch a QUEUE_COMPLETE event
+				if (hasEventListener(AssetEvent.QUEUE_COMPLETE))
+					dispatchEvent(new AssetEvent(AssetEvent.QUEUE_COMPLETE));
+				return;
 			}
 			
 			if (_loadSequentially)
@@ -805,6 +837,8 @@ AssetManager.getInstance().addFromXML(assetList);
 			for (var i:int = 0, len:int = allAssets.length; i < len; i++)
 			{
 				asset = allAssets[i];
+				
+				if (this != AssetManager.getInstance()) AssetManager.getInstance().removeAsset(asset);
 				disposeAsset(asset, false);
 			}
 			
@@ -878,7 +912,8 @@ AssetManager.getInstance().addFromXML(assetList);
 				else if (obj is AssetQueue) AssetQueue(obj)._priority = priority;
 				
 				// Remove the object from the queue, if it exists
-				if (currentIndex > -1) _queue.splice(currentIndex, 1);
+				if (currentIndex > -1)
+					_queue.splice(currentIndex, 1);
 				
 				if (priority > highestPriority)
 				{
@@ -938,8 +973,10 @@ AssetManager.getInstance().addFromXML(assetList);
 			
 			if (removeFromLists)
 			{
+				// Remove from global manager
+				if (this != AssetManager.getInstance()) AssetManager.getInstance().removeAsset(asset);
+				
 				// Remove from assetsById dictionary
-				if (AssetManager.getInstance() != this) AssetManager.getInstance().removeAsset(asset);
 				_assetsById[asset.id] = null;
 				delete _assetsById[asset.id];
 				
@@ -1134,6 +1171,16 @@ AssetManager.getInstance().addFromXML(assetList);
 		// EVENT HANDLERS
 		// ------------------------------------------------------------------------------------------
 		/**
+		 * Executed when a child AssetQueue has dispatched an asset-related event.
+		 * @param	e	The AssetEvent object
+		 */
+		private function onChildQueueAssetEvent(e:AssetEvent):void
+		{
+			var newEvent:AssetEvent = e.clone() as AssetEvent;
+			dispatchEvent(newEvent);
+		}
+		
+		/**
 		 * Executed when a child AssetQueue has completed loading all its assets.
 		 * @param	e	The AssetEvent object
 		 */
@@ -1146,6 +1193,9 @@ AssetManager.getInstance().addFromXML(assetList);
 			_queue.splice(index, 1);
 			
 			// Remove listeners
+			assetQueue.removeEventListener(AssetEvent.ASSET_COMPLETE, onChildQueueAssetEvent);
+			assetQueue.removeEventListener(AssetEvent.ASSET_FAIL, onChildQueueAssetEvent);
+			assetQueue.removeEventListener(AssetEvent.ASSET_START, onChildQueueAssetEvent);
 			assetQueue.removeEventListener(AssetEvent.QUEUE_COMPLETE, onChildQueueComplete);
 			
 			// If this queue is empty, it's complete, otherwise continue loading the next asset
@@ -1170,10 +1220,10 @@ AssetManager.getInstance().addFromXML(assetList);
 			var asset:Asset, index:int = -1;
 			for (var i:int = 0, len:int = _queue.length; i < len; i++)
 			{
-				var f:Asset = _queue[i] as Asset;
-				if (f != null && f._handler == e.target)
+				var a:Asset = _queue[i] as Asset;
+				if (a != null && a._handler == e.target)
 				{
-					asset = f;
+					asset = a;
 					index = i;
 					break;
 				}
