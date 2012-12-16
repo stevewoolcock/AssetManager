@@ -31,6 +31,7 @@
 
 package com.deadreckoned.assetmanager.formats
 {
+	import flash.utils.ByteArray;
 	
 	/**
 	 * The IFormatHandler interface must be implemented by all registered file formats for the AssetManager. All format handlers should
@@ -55,6 +56,12 @@ package com.deadreckoned.assetmanager.formats
 		function getContent():*;
 		
 		/**
+		 * Retrieves the raw contents of the loaded asset.
+		 * @return	The raw contents of the loaded asset
+		 */
+		function getRawContent():*;
+		
+		/**
 		 * The id of the IFormatHandler.
 		 */
 		function get id():String;
@@ -65,6 +72,13 @@ package com.deadreckoned.assetmanager.formats
 		 * @param	context	An optional load context object
 		 */
 		function load(uri:String, context:* = null):void;
+		
+		/**
+		 * Begins loading an asset from a byte array.
+		 * @param	bytes	The byte array to load the asset data from
+		 * @param	context	An optional load context object
+		 */
+		function loadBytes(bytes:ByteArray, context:* = null):void;
 		
 		/**
 		 * Pauses the loading of the asset.

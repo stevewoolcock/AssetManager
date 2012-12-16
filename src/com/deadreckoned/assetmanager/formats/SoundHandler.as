@@ -38,6 +38,7 @@ package com.deadreckoned.assetmanager.formats
 	import flash.media.Sound;
 	import flash.media.SoundLoaderContext;
 	import flash.net.URLRequest;
+	import flash.utils.ByteArray;
 	
 	/**
 	 * The SoundHandler class handles the loading of sound files. The data loaded by SoundHandler is returned as a
@@ -96,10 +97,29 @@ package com.deadreckoned.assetmanager.formats
 		/**
 		 * @inheritDoc
 		 */
+		public function getRawContent():*
+		{
+			if (!_loaded) return null;
+			return _sound;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function load(uri:String, context:* = null):void
 		{
 			_loaded = false;
 			_sound.load(new URLRequest(uri), SoundLoaderContext(context));
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function loadBytes(bytes:ByteArray, context:* = null):void
+		{
+			_sound.loadCompressedDataFromByteArray(bytes, bytes.length);
+			_loaded = true;
+			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
 		/**

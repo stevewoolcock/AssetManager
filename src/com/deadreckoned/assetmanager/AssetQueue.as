@@ -378,7 +378,8 @@ AssetManager.getInstance().add(childQueue);</listing>
 				
 				// Get format handler class
 				var handlerClass:Class = AssetManager._formats[args.type];
-				if (handlerClass == null) throw new ArgumentError("No format handler with the type '" + args.type + "' has been registered. Use AssetManager.registerFormat() to register new or custom formats.");
+				if (handlerClass == null)
+					throw new ArgumentError("No format handler with the type '" + args.type + "' has been registered. Use AssetManager.registerFormat() to register new or custom formats.");
 				
 				asset = new Asset(new handlerClass());
 				asset._uri				= uri;
@@ -432,7 +433,8 @@ AssetManager.getInstance().add(childQueue);</listing>
 			if (assetQueue != null)
 			{
 				// Default priority is NaN, to force the child queue to be added to the end of this queue
-				if (!args.hasOwnProperty("priority")) args.priority = NaN;
+				if (!args.hasOwnProperty("priority"))
+					args.priority = NaN;
 				
 				assetQueue.addEventListener(AssetEvent.ASSET_COMPLETE, onChildQueueAssetEvent, false, 0, true);
 				assetQueue.addEventListener(AssetEvent.ASSET_FAIL, onChildQueueAssetEvent, false, 0, true);
@@ -608,7 +610,7 @@ AssetManager.getInstance().addFromXML(assetList);
 		 */
 		public function contains(id:String):Boolean
 		{
-			return _assetsById[id] != null;
+			return (_assetsById[id] != null);
 		}
 		
 		/**
@@ -618,7 +620,7 @@ AssetManager.getInstance().addFromXML(assetList);
 		 */
 		public function get(id:String):Asset
 		{
-			return _assetsById[id] as Asset;
+			return (_assetsById[id] as Asset);
 		}
 		
 		/**
@@ -646,7 +648,9 @@ AssetManager.getInstance().addFromXML(assetList);
 			var output:Array = [];
 			var all:Vector.<Asset> = _loaded.concat(_queue);
 			for (var i:int = 0, len:int = all.length; i < len; i++)
+			{
 				output.push(Asset(all[i]).id);
+			}
 			
 			return output;
 		}
@@ -659,7 +663,9 @@ AssetManager.getInstance().addFromXML(assetList);
 		{
 			var output:Array = [];
 			for (var i:int = 0, len:int = _loaded.length; i < len; i++)
+			{
 				output.push(Asset(_loaded[i]).id);
+			}
 			
 			return output;
 		}
@@ -685,7 +691,7 @@ AssetManager.getInstance().addFromXML(assetList);
 		 */
 		public function getHeadObject():IQueueable
 		{
-			return _queue.length > 0 ? _queue[0] : null;
+			return ((_queue.length > 0) ? _queue[0] : null);
 		}
 		
 		/**
@@ -694,7 +700,7 @@ AssetManager.getInstance().addFromXML(assetList);
 		 */
 		public function getTailObject():IQueueable
 		{
-			return _queue.length > 0 ? _queue[_queue.length - 1] : null;
+			return ((_queue.length > 0) ? _queue[_queue.length - 1] : null);
 		}
 		
 		/**
@@ -826,7 +832,8 @@ AssetManager.getInstance().addFromXML(assetList);
 			{
 				// Purge single asset
 				asset = _assetsById[id];
-				if (asset != null) disposeAsset(asset);
+				if (asset != null) 
+					disposeAsset(asset);
 				return;
 			}
 			
@@ -838,7 +845,9 @@ AssetManager.getInstance().addFromXML(assetList);
 			{
 				asset = allAssets[i];
 				
-				if (this != AssetManager.getInstance()) AssetManager.getInstance().removeAsset(asset);
+				if (this != AssetManager.getInstance())
+					AssetManager.getInstance().removeAsset(asset);
+					
 				disposeAsset(asset, false);
 			}
 			
@@ -960,7 +969,8 @@ AssetManager.getInstance().addFromXML(assetList);
 		 */
 		private function disposeAsset(asset:Asset, removeFromLists:Boolean = true):void
 		{
-			if (asset == null) return;
+			if (asset == null)
+				return;
 			
 			// Remove event listeners
 			var loaderAsDispatcher:IEventDispatcher = asset._handler as IEventDispatcher;
@@ -974,7 +984,8 @@ AssetManager.getInstance().addFromXML(assetList);
 			if (removeFromLists)
 			{
 				// Remove from global manager
-				if (this != AssetManager.getInstance()) AssetManager.getInstance().removeAsset(asset);
+				if (this != AssetManager.getInstance()) 
+					AssetManager.getInstance().removeAsset(asset);
 				
 				// Remove from assetsById dictionary
 				_assetsById[asset.id] = null;

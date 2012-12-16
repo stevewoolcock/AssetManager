@@ -120,6 +120,11 @@ package com.deadreckoned.assetmanager
 		public function get asset():* { return _asset; }
 		
 		/**
+		 * The raw asset data. This is only available after the asset has completed loading. This value will be <code>null</code> if the asset has not completed loading.
+		 */
+		public function get rawData():* { return (_handler != null) ? _handler.getRawContent() : null; }
+		
+		/**
 		 * The current number of bytes loaded.
 		 */
 		public function get bytesLoaded():int { return _bytesLoaded; }
@@ -207,7 +212,7 @@ package com.deadreckoned.assetmanager
 		/**
 		 * @private
 		 */
-		internal function dispose ():void
+		internal function dispose():void
 		{
 			clean();
 			disposeHandler();
@@ -223,7 +228,7 @@ package com.deadreckoned.assetmanager
 		 * Generates a String representation of the object.
 		 * @return	A String representation of the object.
 		 */
-		public function toString ():String
+		public function toString():String
 		{
 			return "(Asset id=" + id + ", priority=" + _priority + ", type=" + type + ", uri=" + uri + ")";
 		}

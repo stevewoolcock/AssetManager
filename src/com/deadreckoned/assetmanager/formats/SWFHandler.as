@@ -39,6 +39,7 @@ package com.deadreckoned.assetmanager.formats
 	import flash.net.URLRequest;
 	import flash.system.Capabilities;
 	import flash.system.LoaderContext;
+	import flash.utils.ByteArray;
 	
 	/**
 	 * The SWFHandler handles the loading of Flash SWF files. The data loaded by SWFHandler is returned as a <code>DisplayObject</code>.
@@ -102,10 +103,28 @@ package com.deadreckoned.assetmanager.formats
 		/**
 		 * @inheritDoc
 		 */
+		public function getRawContent():*
+		{
+			if (!_loaded) return null;
+			return _loader.content;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function load(uri:String, context:* = null):void
 		{
 			_loaded = false;
 			_loader.load(new URLRequest(uri), context as LoaderContext);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function loadBytes(bytes:ByteArray, context:* = null):void
+		{
+			_loaded = false;
+			_loader.loadBytes(bytes, context as LoaderContext);
 		}
 		
 		/**

@@ -1,5 +1,5 @@
-﻿/**
- * com.deadreckoned.assetmanager.XMLHandler
+/**
+ * com.deadreckoned.assetmanager.JSONHandler
  * 
  * Copyright (c) 2012 Stephen Woolcock
  * 
@@ -35,27 +35,27 @@ package com.deadreckoned.assetmanager.formats
 	import flash.utils.ByteArray;
 	
 	/**
-	 * The XMLHandler handles the loading of XML files. It extends the GenericHandler class. The data loaded by XMLHandler is
-	 * returned as an <code>XML</code> object.
+	 * The JSONHandler handles the loading of JSON files. It extends the GenericHandler class. The data loaded by JSONHandler is
+	 * returned as a dynamic object, parsed using the native <code>JSON</code> parser.
 	 */
-	public class XMLHandler extends GenericHandler
+	public class JSONHandler extends GenericHandler
 	{
-		private var _data:XML;
+		private var _data:Object;
 		
 		/**
 		 * @inheritDoc
 		 */
-		public override function get id():String { return "xml"; }
+		public override function get id():String { return "json"; }
 		
 		/**
 		 * @inheritDoc
 		 */
-		public override function get extensions():Array { return [ "xml", "htm", "html" ]; }
+		public override function get extensions():Array { return [ "json", "jsn" ]; }
 		
 		/**
 		 * Creates a new instance of the XMLHandler class
 		 */
-		public function XMLHandler ()
+		public function JSONHandler()
 		{
 			super();
 		}
@@ -75,9 +75,10 @@ package com.deadreckoned.assetmanager.formats
 		public override function getContent():*
 		{
 			if (!loaded) return null;
-			if (_data == null) _data = new XML(_loader.data);
+			if (_data == null) _data = JSON.parse(String(_loader.data));
 			return _data;
 		}
+		
 		
 		/**
 		 * @inheritDoc
@@ -85,7 +86,7 @@ package com.deadreckoned.assetmanager.formats
 		public override function loadBytes(bytes:ByteArray, context:* = null):void
 		{
 			_loaded = true;
-			_data = XML(bytes.readUTFBytes(bytes.length));
+			_data = JSON.parse(bytes.readUTFBytes(bytes.length));
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
 	}

@@ -150,6 +150,16 @@ package com.deadreckoned.assetmanager
 		}
 		
 		/**
+		 * Retrives the Class reference for the format handler of a specific format type.
+		 * @param	type	The format type
+		 * @return	The Class reference for the format handler of the supplied format type
+		 */
+		static public function getFormatHandler(type:String):Class
+		{
+			return _formats[type];
+		}
+		
+		/**
 		 * Prints the list of registered file formats to the output window.
 		 */
 		static public function listRegisteredFormats():void
