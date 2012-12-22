@@ -114,7 +114,7 @@ package com.deadreckoned.assetmanager
 		private var _loading:Boolean = true;
 		private var _loadingId:String;
 		private var _loadingXML:Boolean;
-		private var _loadSequentially:Boolean = true;
+		private var _loadSequentially:Boolean = false;
 		private var _queue:Vector.<IQueueable>;
 		
 		/**
