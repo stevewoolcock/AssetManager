@@ -57,6 +57,10 @@ package
 			trace("assets/sound.mp3:", _assetManager.get("assets/sound.mp3").asset);
 			trace("assets/swffile.swf:", _assetManager.get("assets/swffile.swf").asset);
 			trace("assets/xmldoc.xml:", _assetManager.get("assets/xmldoc.xml").asset);
+			
+			// Remove the swffile.swf asset
+			_assetManager.purge("assets/swffile.swf");
+			trace("Removed: assets/swffile.swf:", _assetManager.get("assets/swffile.swf"));	// Output: null
 		}
 	}
 }

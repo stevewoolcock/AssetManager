@@ -61,6 +61,14 @@ Load a single asset and execute a callback upon completion:
 			trace("Asset complete:", AssetManager.getInstance().get("image.png"));
 		}
 	});
+	
+Remove a loading, or previously loaded asset:
+	
+	AssetManager.getInstance().purge("image.png");
+	
+Remove all loaded and currently loading assets:
+	
+	AssetManager.getInstance().purge();
 
 See the [example](https://github.com/stevewoolcock/AssetManager/tree/master/examples "AssetManager examples") projects for more examples and advanced features.
 
