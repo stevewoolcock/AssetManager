@@ -1,7 +1,7 @@
 ﻿/**
  * com.deadreckoned.assetmanager.SWFHandler
  * 
- * Copyright (c) 2012 Stephen Woolcock
+ * Copyright (c) 2013 Stephen Woolcock
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation

@@ -1,7 +1,7 @@
 ﻿/**
  * com.deadreckoned.assetmanager.AssetManager
  * 
- * Copyright (c) 2012 Stephen Woolcock
+ * Copyright (c) 2013 Stephen Woolcock
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -107,7 +107,9 @@ package com.deadreckoned.assetmanager
 		public function AssetManager(enforcer:AssetManagerSingletonEnforcer):void
 		{
 			super("$global");
-			if (enforcer == null) throw new Error("AssetManager is a Singleton and cannot be directly instantiated. Use AssetManager.getInstance().");
+			
+			if (enforcer == null)
+				throw new Error("AssetManager is a Singleton and cannot be directly instantiated. Use AssetManager.getInstance().");
 		}
 		
 		
@@ -150,16 +152,6 @@ package com.deadreckoned.assetmanager
 		}
 		
 		/**
-		 * Retrives the Class reference for the format handler of a specific format type.
-		 * @param	type	The format type
-		 * @return	The Class reference for the format handler of the supplied format type
-		 */
-		static public function getFormatHandler(type:String):Class
-		{
-			return _formats[type];
-		}
-		
-		/**
 		 * Prints the list of registered file formats to the output window.
 		 */
 		static public function listRegisteredFormats():void
@@ -184,6 +176,8 @@ package com.deadreckoned.assetmanager
 		{
 			var queue:AssetQueue = new AssetQueue(id);
 			queue.path = this.path;
+			queue.queryString = this.queryString;
+			queue.urlFunction = this.urlFunction;
 			queue.loadSequentially = this.loadSequentially;
 			return queue;
 		}
@@ -205,7 +199,8 @@ package com.deadreckoned.assetmanager
 		internal function addAsset(asset:Asset):void
 		{
 			_assetsById[asset.id] = asset;
-			if (_loaded.indexOf(asset) == -1) _loaded.push(asset);
+			if (_loaded.indexOf(asset) == -1)
+				_loaded.push(asset);
 		}
 		
 		/**

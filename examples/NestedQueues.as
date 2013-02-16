@@ -22,7 +22,7 @@ package
 			_assetManager.add("assets/image1.jpg");
 			
 			// Create a secondary queue and add assets
-			var secondaryQueue:AssetQueue = new AssetQueue("secondary");
+			var secondaryQueue:AssetQueue = AssetManager.getInstance().createQueue("secondary");
 			secondaryQueue.addEventListener(AssetEvent.QUEUE_START, onQueueStarted, false, 0, true);
 			secondaryQueue.addEventListener(AssetEvent.QUEUE_COMPLETE, onQueueComplete, false, 0, true);
 			secondaryQueue.add("assets/subfolder/image2.png");

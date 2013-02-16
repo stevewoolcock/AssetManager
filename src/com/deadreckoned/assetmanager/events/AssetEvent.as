@@ -56,6 +56,25 @@ package com.deadreckoned.assetmanager.events
 		 *
 		 * @eventType AssetComplete
 		 */
+		static public const ASSET_ADDED:String = "AssetAdded";
+		
+		/**
+		 * The AssetEvent.ASSET_COMPLETE constant defines the value of the <code>type</code> property of the event object 
+		 * for a <code>AssetComplete</code> event.
+		 *
+		 * <p>The properties of the event object have the following values:</p>
+		 * <table class="innertable">
+		 * <tr><th>Property</th><th>Value</th></tr>
+		 * <tr><td>bubbles</td><td><code>true</code></td></tr>
+		 * <tr><td>cancelable</td><td><code>false</code>; there is no default behavior to cancel.</td></tr>
+		 * <tr><td>currentTarget</td><td>The object that is actively processing the AssetEvent object with an event listener.</td></tr>
+		 * <tr><td>target</td><td>The AssetManager instance that has completed loading the file.</td></tr>
+		 * <tr><td>fileId</td><td>The id of the file that has completed loading.</td></tr>
+		 * <tr><td>data</td><td>Any custom data that was specified when the file was added to the queue.</td></tr>
+		 * </table>
+		 *
+		 * @eventType AssetComplete
+		 */
 		static public const ASSET_COMPLETE:String = "AssetComplete";
 		
 		/**
@@ -95,6 +114,25 @@ package com.deadreckoned.assetmanager.events
 		 * @eventType AssetFail
 		 */
 		static public const ASSET_FAIL:String = "AssetFail";
+		
+		/**
+		 * The AssetEvent.ASSET_PURGED constant defines the value of the <code>type</code> property of the event object 
+		 * for a <code>AssetPurged</code> event.
+		 *
+		 * <p>The properties of the event object have the following values:</p>
+		 * <table class="innertable">
+		 * <tr><th>Property</th><th>Value</th></tr>
+		 * <tr><td>bubbles</td><td><code>true</code></td></tr>
+		 * <tr><td>cancelable</td><td><code>false</code>; there is no default behavior to cancel.</td></tr>
+		 * <tr><td>currentTarget</td><td>The object that is actively processing the AssetEvent object with an event listener.</td></tr>
+		 * <tr><td>target</td><td>The AssetManager instance that has completed loading the file.</td></tr>
+		 * <tr><td>fileId</td><td>The id of the file that has completed loading.</td></tr>
+		 * <tr><td>data</td><td>Any custom data that was specified when the file was added to the queue.</td></tr>
+		 * </table>
+		 *
+		 * @eventType AssetPurged
+		 */
+		static public const ASSET_PURGED:String = "AssetPurged";
 		
 		/**
 		 * The AssetEvent.LIST_COMPLETE constant defines the value of the <code>type</code> property of the event object 
@@ -182,6 +220,23 @@ package com.deadreckoned.assetmanager.events
 		 * @eventType AssetQueueStop
 		 */
 		static public const QUEUE_STOP:String = "AssetQueueStop";
+		
+		/**
+		 * The AssetEvent.QUEUE_PURGED constant defines the value of the <code>type</code> property of the event object 
+		 * for a <code>AssetQueuePurged</code> event.
+		 *
+		 * <p>The properties of the event object have the following values:</p>
+		 * <table class="innertable">
+		 * <tr><th>Property</th><th>Value</th></tr>
+		 * <tr><td>bubbles</td><td><code>true</code></td></tr>
+		 * <tr><td>cancelable</td><td><code>false</code>; there is no default behavior to cancel.</td></tr>
+		 * <tr><td>currentTarget</td><td>The object that is actively processing the AssetEvent object with an event listener.</td></tr>
+		 * <tr><td>target</td><td>The AssetManager instance that has completed loading its queue.</td></tr>
+		 * </table>
+		 *
+		 * @eventType AssetQueuePurged
+		 */
+		static public const QUEUE_PURGED:String = "AssetQueuePurged";
 		
 		private var _asset:Asset;
 		private var _data:Object;

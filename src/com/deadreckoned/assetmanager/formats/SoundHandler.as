@@ -1,7 +1,7 @@
 ﻿/**
  * com.deadreckoned.assetmanager.SoundHandler
  * 
- * Copyright (c) 2012 Stephen Woolcock
+ * Copyright (c) 2013 Stephen Woolcock
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -25,7 +25,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
  * @author Stephen Woolcock
- * @version 1.0.0
+ * @version 1.1.0
  * @link blog.deadreckoned.com
 */
 
@@ -117,7 +117,10 @@ package com.deadreckoned.assetmanager.formats
 		 */
 		public function loadBytes(bytes:ByteArray, context:* = null):void
 		{
-			_sound.loadCompressedDataFromByteArray(bytes, bytes.length);
+			if (!("loadCompressedDataFromByteArray" in _sound))
+				throw new Error("loadBytes is not support for SoundHandler when compiling to < Flash Player 11");
+			
+			_sound["loadCompressedDataFromByteArray"](bytes, bytes.length);
 			_loaded = true;
 			dispatchEvent(new Event(Event.COMPLETE));
 		}

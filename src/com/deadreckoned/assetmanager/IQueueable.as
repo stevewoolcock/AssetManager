@@ -1,7 +1,7 @@
 /**
  * com.deadreckoned.assetmanager.IQueueable
  *
- * Copyright (c) 2012 Stephen Woolcock
+ * Copyright (c) 2013 Stephen Woolcock
  *
  * @author Stephen Woolcock
  */

@@ -28,13 +28,16 @@ A default import of AssetManager with no custom plugins activated weighs in at a
 	* Images (PNG, GIF and JPEG)
 	* Sound (MP3)
 	* SWF
-	* Video (All Flash Platform supported video formats)
 	* XML
+	* GZIP (requires [Paul Robertson's Actionscript GZIP encoding library](http://probertson.com/projects/gzipencoder/ "Actionscript GZIP encoding library"))
 	* Name/value pairs
 	* Adobe Pixel Blender Shaders
-* Easily extendable with custom plugins to support any format
+* Easily extendable with plugin architecture to support any format
 * Suitable for use in both small projects and large enterprise level projects
 
+## Future Additions
+
+* Support for loading and decompressing of ZIP archives
 
 ## Quick API Examples
 
