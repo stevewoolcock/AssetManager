@@ -361,7 +361,7 @@ AssetManager.getInstance().add(childQueue);</listing>
 				return null;
 			}
 			
-			args ||= { };
+			args ||= {};
 			
 			// Loading an external asset
 			// -----------------------------
