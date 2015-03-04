@@ -44,6 +44,7 @@ package com.deadreckoned.assetmanager
 		static private const GLOBAL_ID:String = "$_global";
 		
 		static private var _instance:AssetManager;
+		static private var _nextId:int = 0;
 		
 		/**
 		 * @private
@@ -94,7 +95,8 @@ package com.deadreckoned.assetmanager
 		{
 			// Default supported file types
 			registerFormat(BinaryHandler);
-			registerFormat(GenericHandler,		[ "txt" ]);
+			registerFormat(GenericHandler);
+			registerFormat(GenericHandler,	[ "txt" ], TYPE_TEXT);
 			registerFormat(ImageHandler);
 			registerFormat(SoundHandler);
 			registerFormat(SWFHandler);
@@ -174,6 +176,8 @@ package com.deadreckoned.assetmanager
 		 */
 		public function createQueue(id:String = null):AssetQueue
 		{
+			id ||= "_queue" + (_nextId++);
+			
 			var queue:AssetQueue = new AssetQueue(id);
 			queue.path = this.path;
 			queue.queryString = this.queryString;

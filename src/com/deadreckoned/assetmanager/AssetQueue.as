@@ -194,7 +194,8 @@ queue.add("images/myImage.jpg");
 			_path = value;
 			
 			// If a forward slash is not supplied, add one
-			if (_path != null && _path.length > 0 && _path.substr(_path.length - 1) != "/") _path += "/";
+			if (_path != null && _path.length > 0 && _path.substr(_path.length - 1) != "/")
+				_path += "/";
 		}
 		
 		/**
@@ -220,7 +221,8 @@ queue.add("images/myImage.jpg");
 			var c:int = 0;
 			for each (var a:IQueueable in _queue)
 			{
-				if (!(a is AssetQueue)) c++;
+				if (!(a is AssetQueue))
+					c++;
 			}
 			return c;
 		}
@@ -234,7 +236,8 @@ queue.add("images/myImage.jpg");
 			for each (var a:IQueueable in _queue)
 			{
 				var assetQueue:AssetQueue = a as AssetQueue
-				if (assetQueue != null) c += assetQueue.assetsLoadingTotal;
+				if (assetQueue != null)
+					c += assetQueue.assetsLoadingTotal;
 				else c++;
 			}
 			return c;
@@ -259,7 +262,9 @@ queue.add("images/myImage.jpg");
 			{
 				!_loadSequentially ? loadObject(object) : pauseObject(object);
 			}
-			if (_loadSequentially) load();
+			
+			if (_loadSequentially)
+				load();
 		}
 		
 		/**
@@ -280,9 +285,6 @@ queue.add("images/myImage.jpg");
 			_assetsById = new Dictionary(true);
 		}
 		
-		
-		// PUBLIC METHODS
-		// ------------------------------------------------------------------------------------------
 		/**
 		 * Adds an asset to the queue. A valid asset can be a URL, which will be loaded, an AssetQueue to add as a child queue, or any other valid ActionScript object.
 		 * The second argument can be an object containing information about the file. If adding an ActionScript object, the <code>args</code> parameter can be a single string, which will be used
@@ -370,7 +372,8 @@ AssetManager.getInstance().add(childQueue);</listing>
 				var uri:String = obj as String;
 				
 				// Default values
-				if (args.id == null) args.id = uri;
+				if (args.id == null)
+					args.id = uri;
 				
 				var existingAsset:Asset = _assetsById[args.id] || AssetManager.getInstance().get(args.id);
 				if (existingAsset != null)
@@ -420,9 +423,11 @@ AssetManager.getInstance().add(childQueue);</listing>
 						
 						// Return previous asset
 						return existingAsset;
+						// EXIT
 					}
 				}
 				
+				// New asset
 				if (args.type == null)		args.type		= getTypeFromURL(uri);
 				if (args.priority == null)	args.priority	= 0;
 				
@@ -453,7 +458,8 @@ AssetManager.getInstance().add(childQueue);</listing>
 				
 				// Add asset
 				_assetsById[asset._id] = asset;
-				if (AssetManager.getInstance() != this) AssetManager.getInstance().addAsset(asset);
+				if (AssetManager.getInstance() != this)
+					AssetManager.getInstance().addAsset(asset);
 				addObjectToQueue(asset, args.priority, _loading && _queue.length > 1);
 				
 				if (_loading)
@@ -506,7 +512,8 @@ AssetManager.getInstance().add(childQueue);</listing>
 			
 			// Set properties
 			asset._id = argsIsId ? String(args) : (args.id || args.uri);
-			if (args.hasOwnProperty("data")) asset._data = args.data;
+			if (args.hasOwnProperty("data"))
+				asset._data = args.data;
 			
 			// Set type
 			if (args.hasOwnProperty("type"))
@@ -525,7 +532,8 @@ AssetManager.getInstance().add(childQueue);</listing>
 			
 			_loaded.push(asset);
 			_assetsById[asset._id] = asset;
-			if (AssetManager.getInstance() != this) AssetManager.getInstance().addAsset(asset);
+			if (AssetManager.getInstance() != this)
+				AssetManager.getInstance().addAsset(asset);
 			return asset;
 		}
 		
@@ -942,9 +950,6 @@ AssetManager.getInstance().addFromXML(assetList);
 			return "(AssetQueue " + id + ", assetsTotal=" + assetsTotal + ", assetsLoading=" + assetsLoading + ", assetsLoaded=" + assetsLoaded + ")";
 		}
 		
-		
-		// PRIVATE FUNCTIONS
-		// ------------------------------------------------------------------------------------------
 		/**
 		 * Adds an object to the queue at a specific priority
 		 * @param	obj	The object to add to the queue
@@ -1275,9 +1280,6 @@ AssetManager.getInstance().addFromXML(assetList);
 			assetQueue.removeEventListener(AssetEvent.QUEUE_COMPLETE, onChildQueueComplete);
 		}
 		
-		
-		// EVENT HANDLERS
-		// ------------------------------------------------------------------------------------------
 		/**
 		 * Executed when a child AssetQueue has dispatched an asset-related event.
 		 * @param	e	The AssetEvent object
@@ -1335,7 +1337,8 @@ AssetManager.getInstance().addFromXML(assetList);
 				}
 			}
 			
-			if (index == -1) return;
+			if (index == -1)
+				return;
 			
 			_queue.splice(index, 1); // Remove the asset from the queue
 			

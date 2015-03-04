@@ -221,17 +221,6 @@ package com.deadreckoned.assetmanager
 			}
 		}
 		
-		
-		// STATIC PUBLIC FUNCTIONS
-		// ------------------------------------------------------------------------------------------
-		
-		
-		// STATIC PRIVATE FUNCTIONS
-		// ------------------------------------------------------------------------------------------
-		
-		
-		// PUBLIC FUNCTIONS
-		// ------------------------------------------------------------------------------------------
 		/**
 		 * @private
 		 */
@@ -283,9 +272,6 @@ package com.deadreckoned.assetmanager
 			_handler = null;
 		}
 		
-		
-		// EVENT HANDLERS
-		// ------------------------------------------------------------------------------------------
 		/**
 		 * Executed when the asset has completed loading.
 		 * @param	e	The Event object
@@ -303,9 +289,5 @@ package com.deadreckoned.assetmanager
 		{
 			_asset = null;
 		}
-		
-		
-		// GETTERS & SETTERS
-		// ------------------------------------------------------------------------------------------
 	}
 }
